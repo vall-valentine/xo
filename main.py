@@ -1,22 +1,3 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-    print('gaf')
-    print('myau')
-    print('quack')
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
-
 import tkinter as tk
 
 
@@ -24,7 +5,7 @@ class TicTacToe:
     def __init__(self):
         self.root = tk.Tk()  # Создание окна
         self.root.title("Tic-Tac-Toe")
-        self.canvas = tk.Canvas(self.root, width=300, height=300)
+        self.canvas = tk.Canvas(self.root, width=300, height=400)
         self.canvas.pack()
         self.draw_board()
         self.board = [["" for _ in range(3)] for _ in range(3)]  # Инициализация поля
@@ -34,6 +15,7 @@ class TicTacToe:
         for i in range(1, 3):
             self.canvas.create_line(100 * i, 0, 100 * i, 300)  # Отрисовка  линий
             self.canvas.create_line(0, 100 * i, 300, 100 * i)
+        self.canvas.create_line(0, 100 * 3, 300, 100 * 3)
 
     def on_click(self, event):  # Oбрабатывает клики мыши
         row = event.y // 100
@@ -66,11 +48,27 @@ class TicTacToe:
             return self.board[0][2]
         return None
 
+    def restart(self):
+        self.root.destroy()
+        self.root = tk.Tk()  # Создание окна
+        self.root.title("Tic-Tac-Toe")
+        self.canvas = tk.Canvas(self.root, width=300, height=400)
+        self.canvas.pack()
+        self.draw_board()
+        self.board = [["" for _ in range(3)] for _ in range(3)]  # Инициализация поля
+        self.turn = "X"  # Установка начального хода
+        self.root.bind("<Button-1>", game.on_click)
+        self.root.mainloop()
+
     def show_winner(self, winner):
-        self.canvas.create_text(150, 150, text=f"{winner} wins!", font=("Arial", 30))
+        self.canvas.create_text(70, 350, text=f"{winner} wins!", font=("Arial", 30))
+        btn = tk.Button(text="Restart", command=self.restart, height=2, width=7)
+        btn.place(x=200, y=330)
 
     def show_draw(self):
-        self.canvas.create_text(150, 150, text="It's a draw!", font=("Arial", 30))
+        self.canvas.create_text(120, 350, text="It's a draw!", font=("Arial", 30))
+        btn = tk.Button(text="Restart", command=self.restart, height=2, width=7)
+        btn.place(x=215, y=330)
 
     # запуск главного цикла обработки событий
 
